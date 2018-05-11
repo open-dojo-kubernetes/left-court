@@ -1,0 +1,125 @@
+swagger: "2.0"
+info:
+  description: "This is a proof of concept between two microservices playing ping pong, this calls will be communicated between left-court (this) and another micro-service in Java"
+  version: "1.0.0"
+  title: "Left Court Player"
+  termsOfService: ""
+  contact:
+    email: "pegorarohluiz@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "none"
+basePath: "/game"
+tags:
+- name: "serve"
+  description: "Will create a new play, to serve the first hit, this will be called from the MicroService that concedes the point, or some outside push to start the game "
+- name: "plays"
+  description: "This will be the main communication between the plays, one micro-service will receive the play and respond to another"
+schemes:
+- "http"
+paths:
+  /table/v1/serve:
+    post:
+      tags:
+      - "serve"
+      summary: "Create the incentive to the micro-service start the game"
+      description: "Each micro-service will have 2 ways of playing, it will start serve and call the other side of the court micro-sevice, once it starts the game until it loses, the micro-service will loop forever until some side concedes the point, restarting the serve"
+      operationId: 'api.court.class_instance.serve'
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "The score of this match"
+        required: true
+        schema:
+          $ref: "#/definitions/Play"
+      responses:
+        200:
+          description: "Success"
+        400:
+          description: "Invalid input"
+  /table/v1/play:
+    put:
+      tags:
+      - "plays"
+      summary: "Receives the play and responds"
+      description: ""
+      operationId: 'api.court.class_instance.play'
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Play previously played from other side"
+        required: true
+        schema:
+          $ref: "#/definitions/Play"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Pet not found"
+        405:
+          description: "Validation exception"
+  /errors:
+    get:
+      tags:
+      - "errors"
+      summary: "The error codes that can be traced to the problem and how to solve it"
+      description: "The error codes that can be traced to the problem and how to solve it"
+      operationId: "getErrors"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Error"
+definitions:
+  Play:
+    type: "object"
+    properties:
+      incomingSide:
+        type: "string"
+        description: "The Side the player is playing"
+      effect:
+        type: "boolean"
+      innerSide:
+        type: "string"
+        description: "Value where the ball hit in the opponent's side of the table, or net and outside if fault"
+      count:
+        type: "integer"
+        format: "int64"
+        description: "Value of how many plays were given since last serve"
+      speed:
+        type: "string"
+        description: "Speed of the ball moving"
+        enum:
+        - "SLOWPOKE"
+        - "SLOW"
+        - "AVG"
+        - "FAST"
+        - "OMFG"
+      height:
+        type: "string"
+        description: "Height of the ball moving"
+        enum:
+        - "BURNT"
+        - "LOW"
+        - "AVG"
+        - "HIGH"
+        - "OUT_OF_REACH"
+  Error:
+    type: "object"
+    properties:
+      errorCode:
+        type: "integer"
+        format: "int64"
+      error:
+        type: "string"
