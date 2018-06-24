@@ -1,3 +1,4 @@
+requests
 injector
 Flask
 Flask-Restful
