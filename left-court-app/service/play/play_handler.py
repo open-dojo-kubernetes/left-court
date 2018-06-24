@@ -22,6 +22,7 @@ class PlayHandler(object):
     @inject
     def __init__(self):
         injector = Injector()
+        self.features= injector.get(Features)
         self.score_notifier = injector.get(ScoreNotifier)
         self.backhand_service = injector.get(BackHandService)
         self.forehand_service = injector.get(ForeHandService)
