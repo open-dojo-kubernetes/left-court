@@ -75,9 +75,3 @@ class PlayHandler(object):
         other_play = requests.post(PlayHandler.get_right_play(), json=play)
         print('Receiving play ', other_play.json())
         return other_play.json()
-        # check = requests.get(PlayHandler.get_right_health_check())
-        # if check.status_code == 200:
-        #     other_play = requests.post(PlayHandler.get_right_play(), data=play)
-        #     return other_play.json()
-        # else:
-        #     return {'error': 'no right side player, I cant play for myself', 'code': 100003}
