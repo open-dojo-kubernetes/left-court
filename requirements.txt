@@ -6,3 +6,4 @@ Flask-Injector
 fastavro
 boto
 Pika
+retry

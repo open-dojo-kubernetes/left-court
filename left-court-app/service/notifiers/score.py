@@ -6,7 +6,7 @@ class ScoreNotifier(object):
     def __init__(self):
         self.host = 'localhost'
         self.exchange = 'score-queue-exchange'
-        self.connection = pika.AsyncioConnection(pika.ConnectionParameters(self.host))
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters(self.host))
 
     @staticmethod
     def get_score_payload(winner: str, count: int) -> str:

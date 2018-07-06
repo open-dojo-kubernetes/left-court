@@ -1,9 +1,10 @@
 import pika
 
+
 class PlayNotifier(object):
     def __init__(self,):
         self.host = 'localhost'
-        self.connection = pika.AsyncioConnection(pika.ConnectionParameters(self.host))
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters(self.host))
         self.channel = self.connection.channel()
 
     def publish_play(self, play: dict, gameIdentifier: int):
@@ -17,19 +18,6 @@ class PlayNotifier(object):
             print("DAMN YOU WABBIT!")
         print("[x] Sent Score to Queue")
 
-    def receive_play(self):
-        while self.channel.is_open:
-            try:
-                self.channel.basic_consume(queue='right-side-plays',consumer_callback=on_receive_play_callback)
-            except pika.exceptions.ConnectionClosedByBroker:
-                print('Connection closed by broker')
-                break
-            except pika.exceptions.AMQPChannelError:
-                print('Channel error on AMQP')
-                break
-            except pika.exceptions.AMQPConnectionError:
-                print('Connection error, retrying...')
-                continue
 
 
 
