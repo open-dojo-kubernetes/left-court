@@ -3,7 +3,7 @@ import pika
 class PlayNotifier(object):
     def __init__(self,):
         self.host = 'localhost'
-        self.connection = pika.BlockingConnection(pika.ConnectionParameters(self.host))
+        self.connection = pika.AsyncioConnection(pika.ConnectionParameters(self.host))
         self.channel = self.connection.channel()
 
     def publish_play(self, play: dict, gameIdentifier: int):
