@@ -1,7 +1,8 @@
 import random
 
 from injector import provider
-from model.enums import Height, Side, Speed
+
+from main.model.enums import Side, Speed, Height
 
 
 class BackHandService(object):

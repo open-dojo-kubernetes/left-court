@@ -1,9 +1,9 @@
 import requests
 from injector import inject, Injector
 
-from service.handservice import BackHandService
-from service.handservice import ForeHandService
-from service.notifiers.score import ScoreNotifier
+from main.service.handservice import BackHandService
+from main.service.handservice import ForeHandService
+from main.service.notifiers.score import ScoreNotifier
 
 
 class PlayHandler(object):
