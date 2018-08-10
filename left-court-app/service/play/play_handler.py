@@ -22,6 +22,7 @@ class PlayHandler(object):
     @inject
     def __init__(self):
         injector = Injector()
+        self.features= injector.get(Features)
         self.score_notifier = injector.get(ScoreNotifier)
         self.backhand_service = injector.get(BackHandService)
         self.forehand_service = injector.get(ForeHandService)
@@ -59,25 +60,19 @@ class PlayHandler(object):
     def __keep_playing(self):
         play_list = []
         my_play = self.forehand_service.serve()
-        foe_play = self.send_to_other_side(my_play)
+        foe_play = self.__send_to_other_side(my_play)
         play_list.append(my_play)
         play_list.append(foe_play)
         while (not 'error' in foe_play.keys()).__and__(not 'error' in my_play.keys()):
-            foe_play = self.send_to_other_side(my_play)
+            foe_play = self.__send_to_other_side(my_play)
             my_play = self.receive_play(foe_play)
             play_list.append(my_play)
             play_list.append(foe_play)
         print('Plays ', play_list.__len__())
         return play_list
 
-    def send_to_other_side(self, play: dict) -> dict:
+    def __send_to_other_side(self, play: dict) -> dict:
         print('Sending play ', play)
         other_play = requests.post(PlayHandler.get_right_play(), json=play)
         print('Receiving play ', other_play.json())
         return other_play.json()
-        # check = requests.get(PlayHandler.get_right_health_check())
-        # if check.status_code == 200:
-        #     other_play = requests.post(PlayHandler.get_right_play(), data=play)
-        #     return other_play.json()
-        # else:
-        #     return {'error': 'no right side player, I cant play for myself', 'code': 100003}

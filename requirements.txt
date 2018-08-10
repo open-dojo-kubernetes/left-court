@@ -1,3 +1,4 @@
+requests
 injector
 Flask
 Flask-Restful
@@ -5,3 +6,4 @@ Flask-Injector
 fastavro
 boto
 Pika
+retry
