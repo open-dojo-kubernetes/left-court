@@ -7,5 +7,4 @@ install:
   - pip install -r requirements.txt
 # command to run tests
 script:
-  - export $PWD="$(pwd)"
-  - python -m unittest discover -s $PWD/tests -t $PWD/left-court/tests in $PWD/left-court/tests
+  - python -m pytest -vv
