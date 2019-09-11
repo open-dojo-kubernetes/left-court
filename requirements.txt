@@ -3,6 +3,7 @@ injector
 Flask
 Flask-Restful
 Flask-Injector
+Flask-Testing
 fastavro
 boto
 Pika

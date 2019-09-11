@@ -1,9 +1,10 @@
 from typing import Tuple
 
-from flask import request, jsonify, make_response
+from flask import request, jsonify
 from flask_restful import Resource, fields, reqparse
 from injector import inject, Injector
-from service.play.play_handler import PlayHandler
+
+from main.service.play.play_handler import PlayHandler
 
 play_fields = {
     'incomingSide': fields.String,
@@ -26,10 +27,10 @@ class Player(Resource):
         This will call the play_handler
         """
         print(request.json)
-        if request.json['incomingSide'] == 'RIGHT' :
+        if request.json['incomingSide'] == 'RIGHT':
              return self.play_handler.receive_play(request.json), 200
         else:
-            return make_response(jsonify({"error": "The incoming side should be the right.", "errorCode": 100001}), 501)
+            return jsonify({"error": "The incoming side should be the right.", "errorCode": 100001}), 501
 
 
 class Serve(Resource):

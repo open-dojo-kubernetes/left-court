@@ -1,9 +1,10 @@
 import requests
 from injector import inject, Injector
 
-from service.handservice import BackHandService
-from service.handservice import ForeHandService
-from service.notifiers.score import ScoreNotifier
+from main.service.features.Feature import Features
+from main.service.handservice import BackHandService
+from main.service.handservice import ForeHandService
+from main.service.notifiers.score import ScoreNotifier
 
 
 class PlayHandler(object):
@@ -22,7 +23,7 @@ class PlayHandler(object):
     @inject
     def __init__(self):
         injector = Injector()
-        self.features= injector.get(Features)
+        self.features = injector.get(Features)
         self.score_notifier = injector.get(ScoreNotifier)
         self.backhand_service = injector.get(BackHandService)
         self.forehand_service = injector.get(ForeHandService)
